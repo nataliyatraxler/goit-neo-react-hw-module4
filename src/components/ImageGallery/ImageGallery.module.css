@@ -1,0 +1,26 @@
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    /* 4 колонки в рядку */
+    gap: 16px;
+    /* Відстань між картками */
+    padding: 20px;
+    list-style: none;
+    margin: 0;
+}
+
+.galleryItem {
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.galleryItem img {
+    width: 100%;
+    /* Зображення розтягується по ширині контейнера */
+    height: 150px;
+    /* Фіксована висота */
+    object-fit: cover;
+    /* Обрізає та масштабує зображення, щоб воно заповнювало контейнер */
+    display: block;
+}

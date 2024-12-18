@@ -1,0 +1,27 @@
+.app {
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+.appHeader {
+  margin-bottom: 20px;
+}
+
+.mainContent {
+  padding: 20px;
+}
+
+.no-results {
+  position: absolute;
+  /* Абсолютне позиціонування */
+  top: 50%;
+  /* Зсув вниз на 50% висоти */
+  left: 50%;
+  /* Зсув вправо на 50% ширини */
+  transform: translate(-50%, -50%);
+  /* Центрування елемента */
+  color: #555;
+  font-size: 24px;
+  text-align: center;
+  font-weight: 600;
+}

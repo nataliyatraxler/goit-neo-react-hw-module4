@@ -1,0 +1,15 @@
+.errorContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    color: red;
+    font-weight: bold;
+    font-size: 18px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.errorText {
+    margin: 0;
+}
