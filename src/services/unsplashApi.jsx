@@ -13,15 +13,15 @@ export const fetchImages = async (query, page = 1) => {
         per_page: 12,
       },
       headers: {
-        Authorization: `Client-ID ${API_KEY}`, // API ключ у заголовку
+        Authorization: `Client-ID ${API_KEY}`, 
       },
     });
 
-    console.log('API Response:', response.data); // Перевірка структури відповіді
+    console.log('API Response:', response.data); 
 
     // Перевірка, чи існує масив results
     if (response.status === 200 && response.data.results) {
-      return response.data.results; // Повертаємо масив зображень
+      return response.data.results; 
     } else {
       console.warn('Unexpected API response:', response.data);
       return [];
