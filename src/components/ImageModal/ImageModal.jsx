@@ -1,34 +1,21 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import ReactModal from 'react-modal';
 import styles from './ImageModal.module.css';
 
+ReactModal.setAppElement('#root');
+
 const ImageModal = ({ isOpen, onRequestClose, imageUrl }) => {
-  useEffect(() => {
-    // Обробник натискання клавіш
-    const handleKeyDown = (event) => {
-      if (event.key === 'Escape') {
-        onRequestClose();
-      }
-    };
-
-    // Додаємо слухача подій при відкритті модального вікна
-    if (isOpen) {
-      window.addEventListener('keydown', handleKeyDown);
-    }
-
-    // Видаляємо слухача подій при закритті модального вікна
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [isOpen, onRequestClose]);
-
-  if (!isOpen) return null;
-
   return (
-    <div className={styles.modalOverlay} onClick={onRequestClose}>
-      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
-        <img src={imageUrl} alt="Large view" />
+    <ReactModal
+      isOpen={isOpen}
+      onRequestClose={onRequestClose}
+      className={styles.modal}
+      overlayClassName={styles.overlay}
+    >
+      <div>
+        <img src={imageUrl} alt="Selected" className={styles.modalImage} />
       </div>
-    </div>
+    </ReactModal>
   );
 };
 

@@ -2,11 +2,15 @@ import React, { useState, useEffect } from 'react';
 import SearchBar from './components/SearchBar/SearchBar';
 import ImageGallery from './components/ImageGallery/ImageGallery';
 import LoadMoreBtn from './components/LoadMoreBtn/LoadMoreBtn';
-import ImageModal from './components/ImageModal/ImageModal';
+import ReactModal from 'react-modal';
 import Loader from './components/Loader/Loader';
 import ErrorMessage from './components/ErrorMessage/ErrorMessage';
 import { fetchImages } from './services/unsplashApi';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import styles from './App.module.css';
+
+ReactModal.setAppElement('#root');
 
 const App = () => {
   const [images, setImages] = useState([]);
@@ -19,7 +23,7 @@ const App = () => {
 
   const handleSearch = (newQuery) => {
     if (newQuery.trim() === '') {
-      setError('Please enter a valid search query');
+      toast.error('Please enter a valid search query');
       return;
     }
     setQuery(newQuery);
@@ -27,6 +31,7 @@ const App = () => {
     setPage(1);
     setError('');
     setNoResults(false);
+    toast.info(`Searching for "${newQuery}"`);
   };
 
   useEffect(() => {
@@ -41,11 +46,14 @@ const App = () => {
         const data = await fetchImages(query, page);
         if (data.length === 0) {
           setNoResults(true);
+          toast.warn('No results found. Try another query.');
         } else {
           setImages((prev) => [...prev, ...data]);
+          toast.success(`${data.length} images loaded.`);
         }
       } catch (err) {
         setError('Something went wrong. Please try again later.');
+        toast.error('Something went wrong. Please try again later.');
       } finally {
         setIsLoading(false);
       }
@@ -57,18 +65,20 @@ const App = () => {
   return (
     <div className={styles.app}>
       <SearchBar onSubmit={handleSearch} />
+      <ToastContainer position="top-right" autoClose={3000} />
       {error && <ErrorMessage message={error} />}
       {noResults && <ErrorMessage message="No results found. Try another query." />}
       <ImageGallery images={images} onImageClick={setSelectedImage} />
       {isLoading && <Loader />}
       {images.length > 0 && !isLoading && <LoadMoreBtn onClick={() => setPage(page + 1)} />}
-      {selectedImage && (
-        <ImageModal
-          isOpen={!!selectedImage}
-          onRequestClose={() => setSelectedImage(null)}
-          imageUrl={selectedImage}
-        />
-      )}
+      <ReactModal
+        isOpen={!!selectedImage}
+        onRequestClose={() => setSelectedImage(null)}
+        className={styles.modal}
+        overlayClassName={styles.overlay}
+      >
+        {selectedImage && <img src={selectedImage} alt="Selected" className={styles.modalImage} />}
+      </ReactModal>
     </div>
   );
 };
